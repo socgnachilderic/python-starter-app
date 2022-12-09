@@ -1,0 +1,105 @@
+[tool.poetry]
+name = "python-starter-app"
+version = "0.1.0"
+description = "Starter App"
+authors = ["Childéric <socgnachilderic@proton.me>"]
+readme = "README.md"
+
+  [[tool.poetry.packages]]
+  from = "src"
+  include = "domain"
+
+  [[tool.poetry.packages]]
+  from = "src"
+  include = "infrastructure"
+
+  [tool.poetry.dependencies]
+  python = "^3.11"
+
+
+  [tool.poetry.group.dev.dependencies]
+  pre-commit = "^3.3.3"
+  ruff = "^0.0.277"
+  black = "^23.3.0"
+  bandit = "^1.7.5"
+  safety = "^2.3.5"
+  isort = "^5.12.0"
+
+
+  [tool.poetry.group.test.dependencies]
+  pytest = "^7.4.0"
+  pytest-cov = "^4.1.0"
+  pytest-watch = "^4.2.0"
+  pytest-html = "^3.2.0"
+  pytest-bdd = "^6.1.1"
+  assertpy = "^1.1"
+  allure-pytest = "^2.13.2"
+
+
+  [tool.poetry.group.typing.dependencies]
+  pyright = "^1.1.316"
+
+## Pyright Configurations
+[tool.pyright]
+include = ["src", "tests"]
+exclude = ["typings"]
+pythonVersion = "3.11"
+venvPath = "."
+venv = ".venv"
+typeCheckingMode = "strict"
+stubPath="./typings"
+reportMissingTypeStubs = false
+reportUntypedFunctionDecorator = false
+reportUnknownVariableType=false
+
+## Pytest Configurations
+[tool.coverage.run]
+branch = true
+source = [ "src" ]
+
+[tool.coverage.report]
+exclude_lines = [ "if TYPE_CHECKING:" ]
+show_missing = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+addopts = """
+  --gherkin-terminal-reporter -vv
+  --html=reports/unittests/html/index.html
+  --junitxml=reports/unittests/junit.xml
+  --alluredir=reports/acceptance_tests
+  --cov=src --cov-append
+    --cov-report xml:coverage/coverage.xml
+    --cov-report html:coverage/htmlcov
+"""
+
+## Ruff Configurations
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+
+## Black Configurations
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+
+## Isort Configurations
+[tool.isort]
+profile = "black"
+src_paths = ["src", "tests"]
+
+
+## Bandit Configurations
+[tool.bandit]
+targets = ["src"]
+exclude_dirs = [".venv", "tests"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
