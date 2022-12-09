@@ -1,0 +1,78 @@
+[tool.poetry]
+name = "python-starter-app"
+version = "0.1.0"
+description = ""
+authors = ["Childéric <socgnachilderic@proton.me>"]
+readme = "README.md"
+packages = [{include = "app", from = "src"}]
+
+[tool.poetry.scripts]
+start = "app.application:main"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^2.20"
+ruff = "^0.0.169"
+black = "^22.10.0"
+isort = "^5.10.1"
+bandit = "^1.7.4"
+safety = "^2.3.5"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.0"
+pytest-cov = "^4.0.0"
+pytest-watch = "^4.2.0"
+
+[tool.poetry.group.typing.dependencies]
+mypy = "^0.991"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+## Mypy Configurations
+[tool.mypy]
+python_version = "3.10"
+strict = true
+files = "src"
+mypy_path = "src"
+# namespace_packages = true
+# explicit_package_bases = true
+# show_error_codes = true
+
+
+## Pytest Configurations
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--cov=src --cov-append --cov-report xml"
+testpaths = ["tests"]
+
+
+## Ruff Configurations
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+
+## Black Configurations
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+
+
+## Isort Configurations
+[tool.isort]
+profile = "black"
+src_paths = ["src", "tests"]
+
+
+## Bandit Configurations
+[tool.bandit]
+targets = ["src"]
